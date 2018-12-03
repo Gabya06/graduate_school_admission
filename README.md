@@ -95,7 +95,7 @@ else:
     print('Our data sample does not look Gaussian (reject H0)')
 ```
 
-Statistics=0.993, p=0.072
+Statistics=0.993, p=0.072<br>
 Our data sample looks Gaussian (fail to reject H0)
 
 #### GRE & TOEFL Scores and Research 
@@ -168,7 +168,7 @@ coef_df.sort_values(by = 'coefficient', ascending=False)
 Linear Regression R^2 score on training set 0.8542
 Linear Regression R^2 score on test set     0.8503
 Linear Regression MSE score on training 0.0028
-Linear Regression RMSE 0.0530
+Linear Regression RMSE 0.0530<br>
 
 | Feature	        | Coefficient    |
 | ------------------|:--------------:|
@@ -181,7 +181,7 @@ Linear Regression RMSE 0.0530
 | Stat.of purpose	| 0.003996       |
 
 #### Model 2 - Linear Regression using 10-fold cross validation
-In the second model I created a pipeline to scale the date, fit it and perform cross validation. 
+In the second model I created a pipeline to scale the date, fit it and perform cross validation. <br> 
 The average training and test R^2 score remained quite the same at 80% and 78%.
 
 ```python
@@ -244,7 +244,9 @@ ridge_cv_mse = mean_squared_error(y_pred=ridge_cv_pred, y_true=y_test)
 print("Ridge Regression MSE score %.4f" %ridge_cv_mse)
 print("Ridge Regression RMSE %.4f" %math.sqrt(ridge_cv_mse))
 ```
-
+Ridge Regression R^2 score 0.7881 <br>
+Ridge Regression MSE score 0.0040 <br>
+Ridge Regression RMSE 0.063
 
 #### Ridge Regression with best features: CGPA, TOEFL & GRE Scores
 Lastly, I fit ridge regression models for Cumulative GPA, TOEFL & Score scores and then separately using Cumulative GPA and one of the two scores since these are highly correlative. The highest scoring model in the case of GRE vs TOEFL was GRE at 79% R^2.
@@ -270,6 +272,10 @@ print("Ridge Regression MSE score %.4f" %ridge_cv_mse)
 print("Ridge Regression RMSE %.4f" %math.sqrt(ridge_cv_mse))
 ```
 
+Ridge Regression R^2 score 0.7894 <br>
+Ridge Regression MSE score 0.0040 <br>
+Ridge Regression RMSE 0.0631 
+
 #### Model with GRE Score and with TOEFL Score - which is better?
 ```python
 features = ['gre_score','toefl_score']
@@ -290,3 +296,5 @@ for feat in features:
     score_new = ridge_new.score(X_test_scaled, y_test)
     print("Ridge Regression model using %s is: R^2 score %.4f" %(feat,score_new))  
      ```
+Ridge Regression model using gre_score is: R^2 score 0.7978 <br>
+Ridge Regression model using toefl_score is: R^2 score 0.7765
