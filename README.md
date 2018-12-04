@@ -295,6 +295,32 @@ for feat in features:
     ridge_new.fit(X_train_scaled, y_train)
     score_new = ridge_new.score(X_test_scaled, y_test)
     print("Ridge Regression model using %s is: R^2 score %.4f" %(feat,score_new))  
-     ```
+```
+
 Ridge Regression model using gre_score is: R^2 score 0.7978 <br>
 Ridge Regression model using toefl_score is: R^2 score 0.7765
+
+#### Making some predictions
+Finally, I predicted the chance of admittance on the test set using the model fit using CGPA and TOEFL scores and calculated the squared difference for each row, then picked the row with the highest error.
+
+```python
+pred_ridge_new = ridge_new.predict(X_test_scaled)
+# make predictions on test data
+X_test['predictions'] = pred_ridge_new
+# merge predictions & look at rows with highest squared difference
+predicted_test = X_test.merge(pd.DataFrame(y_test), right_index = True, left_index=True)
+predicted_test['diff_squared'] = predicted_test.apply(lambda x: (x['predictions']-x['chance_of_admit'])**2, axis=1)
+predicted_test.sort_values(by = 'diff_squared', ascending=False).head(5)
+```
+
+From the below we can see that the model makes the highest error on a row where the TOEFL score is right around the average but the Cumulative GPA is lower than the average for the training data. We defined the error for each row as the squared difference between our prediction and the chance of getting admitted. 
+
+|TOEFL | Chance of Admit | Predictions | Diff Squared|
+| -----|:----------------|:------------|:------------|
+| 110  |       0.46	     | 0.639608	   | 0.032259    |
+| 105  |       0.70	     | 0.553767	   | 0.021384    |
+| 107  |       0.56      | 0.705240	   | 0.021095    |
+|110   |       0.85	     | 0.744311	   | 0.011170    |
+|107   |       0.84	     | 0.734688	   | 0.011091    |
+
+
